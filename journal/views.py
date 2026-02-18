@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 
-from .models import Post
+from .models import Category, Post
 
 
 def index(request):
@@ -12,6 +12,22 @@ def index(request):
         'latest_posts': latest_posts,
     }
     return render(request, 'journal/index.html', context)
+
+
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    posts = (
+        Post.objects.filter(is_published=True, category=category)
+        .select_related('category')
+    )
+    return render(
+        request,
+        'journal/category_detail.html',
+        {
+            'category': category,
+            'posts': posts,
+        },
+    )
 
 
 def post_detail(request, slug):

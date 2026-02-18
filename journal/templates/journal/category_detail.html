@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Bistro Toulouse - {{ category.name }}{% endblock %}
+
+{% block content %}
+<main class="newspaper-grid">
+    <div class="main-col">
+        <article class="article-card hero-article">
+            <span class="article-category">Rubrique</span>
+            <h2 class="article-title">{{ category.name }}</h2>
+            <p class="article-excerpt">Retrouvez toutes nos adresses et chroniques de la rubrique {{ category.name|lower }}.</p>
+        </article>
+
+        {% for post in posts %}
+        <article class="article-card">
+            <span class="article-category">{{ post.category.name }}</span>
+            <h3 class="article-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <p class="article-excerpt">{{ post.excerpt }}</p>
+            <a href="{{ post.get_absolute_url }}" class="read-more">Lire la suite</a>
+        </article>
+        {% empty %}
+        <article class="article-card">
+            <span class="article-category">{{ category.name }}</span>
+            <p class="article-excerpt">Aucun article publié dans cette rubrique pour le moment.</p>
+        </article>
+        {% endfor %}
+    </div>
+
+    <aside class="sidebar">
+        <h4 class="sidebar-title">À la Une</h4>
+        {% for post in posts|slice:":4" %}
+        <div class="list-item">
+            <span class="article-category">{{ post.category.name }}</span>
+            <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+        </div>
+        {% empty %}
+        <div class="list-item">
+            <span class="article-category">Bistro Toulouse</span>
+            <p>La rédaction prépare de nouveaux articles dans cette rubrique.</p>
+        </div>
+        {% endfor %}
+    </aside>
+</main>
+{% endblock %}
