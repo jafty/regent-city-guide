@@ -59,6 +59,30 @@ Fix:
 2. Reconnect/select correct branch in Railway.
 3. Redeploy.
 
+
+### 6) Set up PostgreSQL on Railway (recommended)
+1. In Railway project, click **New** → **Database** → **Add PostgreSQL**.
+2. Open your Django service → **Variables** and confirm `DATABASE_URL` is present.
+   - If not auto-injected, copy `DATABASE_URL` from the PostgreSQL service variables into your Django service variables.
+3. Keep these app variables set:
+   - `DJANGO_SECRET_KEY`
+   - `DJANGO_DEBUG=False`
+   - `DJANGO_ALLOWED_HOSTS=your-app.up.railway.app,your-custom-domain.com`
+   - `DJANGO_CSRF_TRUSTED_ORIGINS=https://your-app.up.railway.app,https://your-custom-domain.com`
+4. Redeploy the Django service.
+5. Create admin user once (on the deployed service shell):
+   - `python manage.py createsuperuser`
+
+#### Moving existing data from SQLite to PostgreSQL
+If you already created content in SQLite, export/import once:
+```bash
+python manage.py dumpdata --exclude contenttypes --exclude auth.permission > data.json
+# switch DATABASE_URL to PostgreSQL
+python manage.py migrate --noinput
+python manage.py loaddata data.json
+```
+Then keep using PostgreSQL as your only production DB.
+
 ## Notes
 - Static files are served with WhiteNoise.
 - Production server is Gunicorn.
