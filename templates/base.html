@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bistro Toulouse : Le guide authentique pour les bons vivants. Découvrez les meilleures adresses de gastronomie, culture et flâneries dans la Ville Rose.">
+    <title>{% block title %}Bistro Toulouse - Le Guide des Bons Vivants{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="meta-header">
+            <span>Toulouse, Occitanie</span>
+            <span id="current-date">Mardi 24 Octobre</span>
+            <span>Édition Gratuite</span>
+        </div>
+        <h1 class="site-title"><a href="{% url 'journal:home' %}">Bistro Toulouse</a></h1>
+        <p class="tagline">Le guide indépendant des bons vivants et des épicuriens de la Ville Rose</p>
+
+        <nav>
+            <ul>
+                <li><a href="{% url 'journal:home' %}">La Bonne Chère</a></li>
+                <li><a href="{% url 'journal:home' %}">Coquetterie</a></li>
+                <li><a href="{% url 'journal:home' %}">Arts & Lettres</a></li>
+                <li><a href="{% url 'journal:home' %}">Flâneries</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <p>&copy; 2024 Bistro Toulouse. Fait avec amour et graisse de canard.</p>
+        <p class="footer-sub">Mentions légales - Contact - Recrutement</p>
+    </footer>
+</div>
+
+<script>
+    const dateOptions = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    const today = new Date().toLocaleDateString('fr-FR', dateOptions);
+    const currentDateElement = document.getElementById('current-date');
+    if (currentDateElement) {
+        currentDateElement.textContent = today.charAt(0).toUpperCase() + today.slice(1);
+    }
+</script>
+</body>
+</html>
