@@ -24,7 +24,8 @@ Set these in Railway Variables:
 
 - `DJANGO_SECRET_KEY` = strong random string
 - `DJANGO_DEBUG` = `False`
-- `DJANGO_ALLOWED_HOSTS` = `*` (or your Railway domain/custom domain)
+- `DJANGO_ALLOWED_HOSTS` = `your-app.up.railway.app,your-custom-domain.com`
+- `DJANGO_CSRF_TRUSTED_ORIGINS` = `https://your-app.up.railway.app,https://your-custom-domain.com`
 
 Optional when using PostgreSQL plugin:
 - `DATABASE_URL` (Railway usually injects this automatically)
