@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }} - Bistro Toulouse{% endblock %}
+
+{% block content %}
+<article class="article-view">
+    <a href="{% url 'journal:home' %}" class="btn-back">← Retour à la Une</a>
+
+    <header class="article-header">
+        <span class="article-category article-category-large">{{ post.category.name }}</span>
+        <h1 class="article-title article-title-large">{{ post.title }}</h1>
+        <div class="article-meta">Publié le {{ post.created_at|date:'d F Y' }}</div>
+    </header>
+
+    {% if post.image_url %}
+    <figure class="article-figure">
+        <img src="{{ post.image_url }}" alt="{{ post.title }}" class="article-figure-image">
+    </figure>
+    {% endif %}
+
+    <div class="article-content">
+        {{ post.content|linebreaks }}
+    </div>
+</article>
+{% endblock %}
