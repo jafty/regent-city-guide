@@ -61,9 +61,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bistro_toulouse.wsgi.application'
 
+DEFAULT_SQLITE_PATH = os.getenv('DJANGO_SQLITE_PATH', str(BASE_DIR / 'db.sqlite3'))
+DEFAULT_DATABASE_URL = f"sqlite:///{DEFAULT_SQLITE_PATH}"
+
 DATABASES = {
     'default': dj_database_url.parse(
-        os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+        os.getenv('DATABASE_URL', DEFAULT_DATABASE_URL),
         conn_max_age=600,
         ssl_require=False,
     )
