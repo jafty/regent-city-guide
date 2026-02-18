@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Bistro Toulouse - La Une{% endblock %}
+
+{% block content %}
+<main class="newspaper-grid">
+    <div class="main-col">
+        {% if hero_post %}
+        <article class="article-card hero-article">
+            <span class="article-category">{{ hero_post.category.name }}</span>
+            <h2 class="article-title"><a href="{{ hero_post.get_absolute_url }}">{{ hero_post.title }}</a></h2>
+            {% if hero_post.image_url %}
+            <img src="{{ hero_post.image_url }}" alt="{{ hero_post.title }}" class="hero-image">
+            {% endif %}
+            <p class="article-excerpt">{{ hero_post.excerpt }}</p>
+            <a href="{{ hero_post.get_absolute_url }}" class="read-more">Lire la suite</a>
+        </article>
+        {% endif %}
+
+        {% for post in latest_posts %}
+        <article class="article-card">
+            <span class="article-category">{{ post.category.name }}</span>
+            <h3 class="article-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <p class="article-excerpt">{{ post.excerpt }}</p>
+            <a href="{{ post.get_absolute_url }}" class="read-more">Lire la suite</a>
+        </article>
+        {% empty %}
+        <p>Aucun article publié pour le moment.</p>
+        {% endfor %}
+    </div>
+
+    <aside class="sidebar">
+        <h4 class="sidebar-title">En Bref</h4>
+        {% for post in posts %}
+        <div class="list-item">
+            <span class="article-category">{{ post.category.name }}</span>
+            <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></p>
+        </div>
+        {% empty %}
+        <div class="list-item">
+            <span class="article-category">Bistro Toulouse</span>
+            <p>La rédaction prépare ses prochaines chroniques vintage.</p>
+        </div>
+        {% endfor %}
+
+        <div class="subscribe-box">
+            <h5>Abonnez-vous !</h5>
+            <p>Recevez le meilleur de la Ville Rose chaque vendredi.</p>
+            <input type="email" placeholder="Votre courriel" aria-label="Votre courriel">
+            <button type="button">S'inscrire</button>
+        </div>
+    </aside>
+</main>
+{% endblock %}
