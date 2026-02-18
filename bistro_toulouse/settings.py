@@ -5,9 +5,21 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def csv_env(var_name: str, default: str = '') -> list[str]:
+    return [item.strip() for item in os.getenv(var_name, default).split(',') if item.strip()]
+
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-me')
 DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = [host for host in os.getenv('DJANGO_ALLOWED_HOSTS', '*').split(',') if host]
+ALLOWED_HOSTS = csv_env('DJANGO_ALLOWED_HOSTS', '*')
+CSRF_TRUSTED_ORIGINS = csv_env('DJANGO_CSRF_TRUSTED_ORIGINS')
+
+# Required when Django runs behind Railway's reverse proxy so HTTPS is recognized.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Keep secure cookies on for production-like environments.
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 INSTALLED_APPS = [
     'django.contrib.admin',
