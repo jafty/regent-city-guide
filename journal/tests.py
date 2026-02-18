@@ -47,7 +47,7 @@ class PostModelTests(TestCase):
 
 class JournalViewTests(TestCase):
     def setUp(self):
-        self.category = Category.objects.create(name='Arts & Lettres', slug='arts-lettres')
+        self.category = Category.objects.create(name='Arts & Lettres', slug='arts-et-lettres')
         self.post = Post.objects.create(
             category=self.category,
             title='La Halle de la Machine réveille le Minotaure',
@@ -68,3 +68,20 @@ class JournalViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'journal/detail.html')
+
+
+    def test_detail_renders_html_and_linebreaks_in_content(self):
+        self.post.content = 'Première ligne\nDeuxième ligne avec <a href="#ancre">un lien</a>'
+        self.post.save(update_fields=['content'])
+
+        response = self.client.get(reverse('journal:post_detail', kwargs={'slug': self.post.slug}))
+
+        html = response.content.decode()
+        self.assertIn('Première ligne<br>Deuxième ligne avec <a href="#ancre">un lien</a>', html)
+
+    def test_category_status_code_and_template(self):
+        response = self.client.get(reverse('journal:category_detail', kwargs={'slug': self.category.slug}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'journal/category_detail.html')
+        self.assertContains(response, self.post.title)

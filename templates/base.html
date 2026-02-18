@@ -25,10 +25,10 @@
 
         <nav>
             <ul>
-                <li><a href="{% url 'journal:home' %}">La Bonne Chère</a></li>
-                <li><a href="{% url 'journal:home' %}">Coquetterie</a></li>
-                <li><a href="{% url 'journal:home' %}">Arts & Lettres</a></li>
-                <li><a href="{% url 'journal:home' %}">Flâneries</a></li>
+                <li><a href="{% url 'journal:category_detail' slug='la-bonne-chere' %}">La Bonne Chère</a></li>
+                <li><a href="{% url 'journal:category_detail' slug='coquetterie' %}">Coquetterie</a></li>
+                <li><a href="{% url 'journal:category_detail' slug='arts-et-lettres' %}">Arts & Lettres</a></li>
+                <li><a href="{% url 'journal:category_detail' slug='flaneries' %}">Flâneries</a></li>
             </ul>
         </nav>
     </header>

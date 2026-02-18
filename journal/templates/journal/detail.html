@@ -19,7 +19,7 @@
     {% endif %}
 
     <div class="article-content">
-        {{ post.content|linebreaks }}
+        {{ post.content|safe|linebreaksbr }}
     </div>
 </article>
 {% endblock %}
